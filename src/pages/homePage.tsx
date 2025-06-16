@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Background from '../multishareCodes/background';
 
 const Home = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -12,7 +11,6 @@ const Home = () => {
   }, []);
 
   return (
-    <Background>
         <div className="min-h-screen flex justify-center items-center">
       {isLoggedIn ? (
         <button className="p-2 bg-green-600 text-white rounded-full">👤</button>
@@ -25,7 +23,6 @@ const Home = () => {
         </button>
       )}
     </div>
-        </Background>
   );
 };
 

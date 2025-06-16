@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand&display=swap');
+
+.font-pacifico {
+  font-family: 'Pacifico', cursive;
+}
+
+.font-quicksand {
+  font-family: 'Quicksand', sans-serif;
+}
