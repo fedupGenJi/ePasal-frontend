@@ -1,8 +1,13 @@
 import '../index.css';
 import { useState, useRef } from 'react';
 import {
-  EyeIcon, EyeSlashIcon, ExclamationCircleIcon,
-  UserIcon, EnvelopeIcon, PhoneIcon, LockClosedIcon
+  EyeIcon,
+  EyeSlashIcon,
+  ExclamationCircleIcon,
+  UserIcon,
+  EnvelopeIcon,
+  PhoneIcon,
+  LockClosedIcon
 } from '@heroicons/react/24/outline';
 import demoLogo from '../assets/demologo.avif';
 
@@ -23,13 +28,12 @@ const Signup = () => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/.test(val);
   const doPasswordsMatch = password === confirmPassword;
 
-  const isDisabled = (
+  const isDisabled =
     isEmpty(name) ||
     !isPhoneValid(number) ||
     !isEmailValid(email) ||
     !isPasswordStrong(password) ||
-    !doPasswordsMatch
-  );
+    !doPasswordsMatch;
 
   const handleMouseEnter = () => {
     if (isDisabled) {
@@ -45,15 +49,15 @@ const Signup = () => {
   };
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center bg-gray-100 font-mono relative">
-      <div className="absolute top-8 flex items-center gap-4">
-        <img src={demoLogo} alt="Logo" className="h-12 w-12 object-contain" />
-        <span className="text-3xl font-bold text-gray-800">ePasal</span>
+    <section className="min-h-screen flex flex-col items-center justify-center bg-gray-100 font-mono relative px-4">
+      <div className="absolute top-8 flex items-center gap-4 px-2">
+        <img src={demoLogo} alt="Logo" className="h-10 w-10 sm:h-12 sm:w-12 object-contain" />
+        <span className="text-2xl sm:text-3xl font-bold text-gray-800">ePasal</span>
       </div>
 
-      <div className="shadow-2xl mt-20">
-        <div className="flex flex-col items-center text-center p-10 gap-6 bg-white rounded-2xl w-[28rem]">
-          <h1 className="text-4xl font-bold mb-2">Register</h1>
+      <div className="shadow-2xl mt-20 w-full max-w-md mx-auto">
+        <div className="flex flex-col items-center text-center p-6 sm:p-10 gap-6 bg-white rounded-2xl">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4 sm:mb-2">Register</h1>
 
           <div className="w-full space-y-4">
             <FormField
@@ -99,7 +103,11 @@ const Signup = () => {
                   onClick={() => setShowPassword(!showPassword)}
                   className="text-gray-500 hover:text-cyan-500"
                 >
-                  {showPassword ? <EyeSlashIcon className="w-5 h-5" /> : <EyeIcon className="w-5 h-5" />}
+                  {showPassword ? (
+                    <EyeSlashIcon className="w-5 h-5" />
+                  ) : (
+                    <EyeIcon className="w-5 h-5" />
+                  )}
                 </button>
               }
               showError={hovered && !isPasswordStrong(password)}
@@ -118,24 +126,23 @@ const Signup = () => {
             />
           </div>
 
-          <div
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            className="w-full"
-          >
+          <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="w-full">
             <button
               type="button"
               disabled={isDisabled}
-              className={`w-full py-2 mt-4 text-2xl rounded-md transition text-white 
-                ${isDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+              className={`w-full py-2 mt-4 text-xl sm:text-2xl rounded-md transition text-white ${
+                isDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+              }`}
             >
               Sign Up
             </button>
           </div>
 
-          <p className="font-semibold">
+          <p className="font-semibold text-sm sm:text-base">
             Already have an account?{' '}
-            <a href="/login" className="text-blue-400 hover:underline">Login</a>
+            <a href="/login" className="text-blue-400 hover:underline">
+              Login
+            </a>
           </p>
         </div>
       </div>
