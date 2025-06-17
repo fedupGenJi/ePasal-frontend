@@ -139,7 +139,7 @@ const Login = () => {
 
           <p className="font-semibold text-gray-300 font-quicksand">
             Don&apos;t have an account?{' '}
-            <a href="#" className="text-blue-400 hover:underline">
+            <a href="/signup" className="text-blue-400 hover:underline">
               Register
             </a>
           </p>
