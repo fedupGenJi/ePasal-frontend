@@ -10,6 +10,7 @@ import {
   PhoneIcon
 } from '@heroicons/react/24/outline';
 import Background from '../multishareCodes/background';
+import { BACKEND_URL } from '../config';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -47,6 +48,36 @@ const Signup = () => {
   const handleMouseLeave = () => {
     if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
     setHovered(false);
+  };
+
+  const sendSignupData = async () => {
+    const payload = {
+      name,
+      number,
+      email,
+      password,
+    };
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/signup`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const error = await response.text();
+        console.error('Signup failed:', error);
+        return;
+      }
+
+      const result = await response.json();
+      console.log('Signup successful:', result);
+    } catch (error) {
+      console.error('Error while signing up:', error);
+    }
   };
 
   return (
@@ -125,6 +156,7 @@ const Signup = () => {
               <button
                 type="button"
                 disabled={isDisabled}
+                onClick={sendSignupData}
                 className={`w-full py-2 text-2xl rounded-md transition text-white font-quicksand
                 ${isDisabled ? 'bg-gray-700 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
               >
