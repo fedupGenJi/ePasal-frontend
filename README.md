@@ -1,3 +1,2 @@
 2nd Year 2nd Semester Project 
-
-Details to come...
+Welcome to the frontend of ePasal, an e-commerce platform focused on selling laptops. This project is built using React and Tailwind CSS, offering a clean and responsive user interface for a smooth shopping experience.
