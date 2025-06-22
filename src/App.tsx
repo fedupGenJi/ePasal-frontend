@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/homePage';
+import Navbar from './multishareCodes/navbar';
 
 // Laptop versions
 import LoginLaptop from './pages/login';
@@ -14,6 +15,8 @@ function App() {
   const isLaptop = !/Mobi|Android/i.test(navigator.userAgent);
 
   return (
+    <>
+     <Navbar /> 
     <Routes>
       <Route path="/" element={<Home />} />
       <Route
@@ -25,6 +28,7 @@ function App() {
         element={isLaptop ? <SignupLaptop /> : <Signup />}
       />
     </Routes>
+    </>
   );
 }
 
