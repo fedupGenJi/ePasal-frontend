@@ -1,4 +1,4 @@
-import '../index.css';
+import '../../index.css';
 import { useState, useRef } from 'react';
 import {
   EyeIcon,
@@ -7,9 +7,11 @@ import {
   UserIcon,
   LockClosedIcon
 } from '@heroicons/react/24/outline';
-import demoLogo from '../assets/demologo.avif';
+import demoLogo from '../../assets/demologo.avif';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -112,6 +114,13 @@ const Login = () => {
               Register
             </a>
           </p>
+          <button
+                  type="button"
+                  onClick={() => navigate('/')}
+                  className="mt-4 w-full py-2 text-lg rounded-md text-black hover:bg-slate-600 font-quicksand text-left"
+                >
+                  Go to Homepage
+          </button>
         </div>
       </div>
 
