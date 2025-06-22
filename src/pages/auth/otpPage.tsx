@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { BACKEND_URL } from '../config';
+import { BACKEND_URL } from '../../config';
 
 const Otp: React.FC = () => {
     const location = useLocation();

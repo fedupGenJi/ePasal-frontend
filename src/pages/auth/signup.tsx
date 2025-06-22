@@ -1,4 +1,4 @@
-import '../index.css';
+import '../../index.css';
 import { useState, useRef } from 'react';
 import {
   EyeIcon,
@@ -9,8 +9,8 @@ import {
   UserIcon,
   PhoneIcon
 } from '@heroicons/react/24/outline';
-import Background from '../multishareCodes/background';
-import { BACKEND_URL } from '../config';
+import Background from '../../multishareCodes/background';
+import { BACKEND_URL } from '../../config';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 

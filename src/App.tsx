@@ -5,14 +5,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import Home from './pages/homePage';
 
 // Laptop versions
-import LoginLaptop from './pages/login';
-import SignupLaptop from './pages/signup';
-import OtpLaptop from './pages/otp';
+import LoginLaptop from './pages/auth/login';
+import SignupLaptop from './pages/auth/signup';
+import OtpLaptop from './pages/auth/otp';
 
 // Other devices
-import Login from './pages/loginPage';
-import Signup from './pages/signupPage';
-import Otp from './pages/otpPage'
+import Login from './pages/auth/loginPage';
+import Signup from './pages/auth/signupPage';
+import Otp from './pages/auth/otpPage'
 
 
 function App() {

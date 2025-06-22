@@ -1,4 +1,4 @@
-import '../index.css';
+import '../../index.css';
 import { useState, useRef } from 'react';
 import {
   EyeIcon,
@@ -9,8 +9,8 @@ import {
   PhoneIcon,
   LockClosedIcon
 } from '@heroicons/react/24/outline';
-import demoLogo from '../assets/demologo.avif';
-import { BACKEND_URL } from '../config';
+import demoLogo from '../../assets/demologo.avif';
+import { BACKEND_URL } from '../../config';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
