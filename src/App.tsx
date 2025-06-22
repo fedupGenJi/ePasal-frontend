@@ -7,12 +7,13 @@ import Home from './pages/homePage';
 // Laptop versions
 import LoginLaptop from './pages/login';
 import SignupLaptop from './pages/signup';
+import OtpLaptop from './pages/otp';
 
 // Other devices
 import Login from './pages/loginPage';
 import Signup from './pages/signupPage';
+import Otp from './pages/otpPage'
 
-import Otp from './pages/otp';
 
 function App() {
   // Detect laptop by checking user agent does NOT include "Mobi" or "Android"
@@ -31,7 +32,10 @@ function App() {
         element={isLaptop ? <SignupLaptop /> : <Signup />}
       />
 
-      <Route path="/otp" element={<Otp />} />
+      <Route 
+      path="/otp" 
+      element={isLaptop ? <OtpLaptop /> : <Otp />}
+       />
     </Routes>
 
     <ToastContainer

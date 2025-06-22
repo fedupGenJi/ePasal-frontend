@@ -10,8 +10,12 @@ import {
   LockClosedIcon
 } from '@heroicons/react/24/outline';
 import demoLogo from '../assets/demologo.avif';
+import { BACKEND_URL } from '../config';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [email, setEmail] = useState('');
@@ -46,6 +50,48 @@ const Signup = () => {
   const handleMouseLeave = () => {
     if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
     setHovered(false);
+  };
+
+  const sendSignupData = async () => {
+    const payload = { name, number, email, password };
+  
+    try {
+      const response = await fetch(`${BACKEND_URL}/signup`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+  
+      if (!response.ok) {
+        const error = await response.text();
+        toast.error(`Signup failed: ${error}`, {
+          position: "top-center",
+          autoClose: 5000,
+        });
+        return;
+      }
+  
+      const result = await response.json();
+      toast.success('Signup successful! Sending OTP...', {
+        position: "top-center",
+        autoClose: 3000,
+        onClose: () => {
+          navigate('/otp', { state: { temp_id: result.temp_id, otp: result.otp } });
+        },
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(`Error while signing up: ${error.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+        });
+      } else {
+        toast.error(`Error while signing up: ${String(error)}`, {
+          position: "top-center",
+          autoClose: 5000,
+        });
+      }
+    }
   };
 
   return (
@@ -130,6 +176,7 @@ const Signup = () => {
             <button
               type="button"
               disabled={isDisabled}
+              onClick={sendSignupData}
               className={`w-full py-2 mt-4 text-xl sm:text-2xl rounded-md transition text-white ${
                 isDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
               }`}
