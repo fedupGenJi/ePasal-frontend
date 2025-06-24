@@ -1,5 +1,6 @@
 import '../../index.css';
 import { useState, useRef } from 'react';
+import { toast } from 'react-toastify';
 import {
   EyeIcon,
   EyeSlashIcon,
@@ -9,6 +10,7 @@ import {
 } from '@heroicons/react/24/outline';
 import demoLogo from '../../assets/demologo.avif';
 import { useNavigate } from 'react-router-dom';
+import { BACKEND_URL } from '../../config';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,6 +37,48 @@ const Login = () => {
       clearTimeout(hoverTimerRef.current);
     }
     setHovered(false);
+  };
+
+  const sendLoginData = async (gmail: string, password: string, navigate: (path: string, options?: any) => void) => {
+    const payload = { gmail, password };
+  
+    try {
+      const response = await fetch(`${BACKEND_URL}/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+  
+      if (!response.ok) {
+        const error = await response.text();
+        toast.error(`Login failed: ${error}`, {
+          position: "top-center",
+          autoClose: 5000,
+        });
+        return;
+      }
+  
+      const result = await response.json();
+      toast.success('Login successful!', {
+        position: "top-center",
+        autoClose: 3000,
+        onClose: () => {
+          navigate('/', { state: { userId: result.userId } });
+        },
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(`Error while logging in: ${error.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+        });
+      } else {
+        toast.error(`Error while logging in: ${String(error)}`, {
+          position: "top-center",
+          autoClose: 5000,
+        });
+      }
+    }
   };
 
   const openForgotDialog = () => setForgotDialogOpen(true);
@@ -100,6 +144,7 @@ const Login = () => {
             <button
               type="button"
               disabled={isDisabled}
+              onClick={() => sendLoginData(username, password, navigate)}
               className={`w-full py-2 mt-4 text-2xl sm:text-3xl rounded-md transition text-white ${
                 isDisabled ? 'bg-gray-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
               }`}

@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './index.css'
 
 import Home from './pages/homePage';
 
@@ -21,24 +22,24 @@ function App() {
 
   return (
     <>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route
-        path="/login"
-        element={isLaptop ? <LoginLaptop /> : <Login />}
-      />
-      <Route
-        path="/signup"
-        element={isLaptop ? <SignupLaptop /> : <Signup />}
-      />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/login"
+          element={isLaptop ? <LoginLaptop /> : <Login />}
+        />
+        <Route
+          path="/signup"
+          element={isLaptop ? <SignupLaptop /> : <Signup />}
+        />
 
-      <Route 
-      path="/otp" 
-      element={isLaptop ? <OtpLaptop /> : <Otp />}
-       />
-    </Routes>
+        <Route
+          path="/otp"
+          element={isLaptop ? <OtpLaptop /> : <Otp />}
+        />
+      </Routes>
 
-    <ToastContainer
+      <ToastContainer
         position="top-center"
         autoClose={5000}
         hideProgressBar={false}
@@ -47,7 +48,12 @@ function App() {
         pauseOnHover
         draggable
         theme="colored"
+        toastClassName={(context) => {
+          const type = context?.type ?? 'default';
+          return `react-toastify__toast react-toastify__toast--${type} react-toastify__toast-theme--colored w-auto max-w-none whitespace-pre-wrap break-words p-4`;
+        }}
       />
+
     </>
   );
 }
