@@ -11,3 +11,13 @@
 .font-quicksand {
   font-family: 'Quicksand', sans-serif;
 }
+
+.react-toastify__toast--error {
+  background-color: #d32f2f !important;
+  color: white;
+}
+
+.react-toastify__toast--success {
+  background-color: #388e3c !important;
+  color: white;
+}
