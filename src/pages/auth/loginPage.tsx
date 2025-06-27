@@ -39,16 +39,20 @@ const Login = () => {
     setHovered(false);
   };
 
-  const sendLoginData = async (gmail: string, password: string, navigate: (path: string, options?: any) => void) => {
+  const sendLoginData = async (
+    gmail: string,
+    password: string,
+    navigate: (path: string, options?: any) => void
+  ) => {
     const payload = { gmail, password };
-  
+
     try {
       const response = await fetch(`${BACKEND_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-  
+
       if (!response.ok) {
         const error = await response.text();
         toast.error(`Login failed: ${error}`, {
@@ -57,13 +61,16 @@ const Login = () => {
         });
         return;
       }
-  
+
       const result = await response.json();
+      const userId = result.user_id;
+
       toast.success('Login successful!', {
         position: "top-center",
         autoClose: 3000,
-        onClose: () => {
-          navigate('/', { state: { userId: result.userId } });
+        onClose: async () => {
+          await fetchAndStoreUserInfo(userId);
+          navigate('/');
         },
       });
     } catch (error: unknown) {
@@ -78,6 +85,39 @@ const Login = () => {
           autoClose: 5000,
         });
       }
+    }
+  };
+
+  const fetchAndStoreUserInfo = async (userId: string) => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/user/${userId}`, {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        toast.error(`Failed to fetch user info: ${errorText}`, {
+          position: "top-center",
+          autoClose: 5000,
+        });
+        return;
+      }
+
+      const userData = await response.json();
+
+      sessionStorage.setItem("userId", userData.userId);
+      sessionStorage.setItem("name", userData.name);
+      sessionStorage.setItem("email", userData.email);
+      sessionStorage.setItem("phone", userData.phone);
+      sessionStorage.setItem("balance", String(userData.balance));
+    } catch (error: unknown) {
+      toast.error(
+        `Error fetching user data: ${error instanceof Error ? error.message : String(error)}`,
+        {
+          position: "top-center",
+          autoClose: 5000,
+        }
+      );
     }
   };
 
