@@ -7,7 +7,7 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const session = sessionStorage.getItem('user');
+    const session = sessionStorage.getItem('userId');
     setIsLoggedIn(!!session);
   }, []);
 
