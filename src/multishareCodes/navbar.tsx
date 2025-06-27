@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaShoppingCart, FaUser, } from "react-icons/fa";
+import { FaShoppingCart, FaUser, FaBars, FaTimes} from "react-icons/fa";
 import { FiRepeat } from "react-icons/fi";
 import { TiArrowSortedDown } from "react-icons/ti";
 
@@ -20,7 +20,7 @@ const Navbar = () => {
     return (
         <header className="bg-white shadow">
             <div className="flex justify-between items-center px-8 py-6 relative" style={{ top: "8px" }}>
-                <h1 className="text-4xl font-extrabold cursor-pointer tracking-widest">EPASAL</h1>
+                <h1 className="text-4xl font-extrabold cursor-pointer tracking-widest"> EPASAL</h1>
                 <div className="flex gap-4 text-2xl ">
                     <FaShoppingCart title="Cart" className="cursor-pointer" />
                     <FiRepeat title="Compare" className="cursor-pointer" />
