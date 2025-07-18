@@ -1,5 +1,5 @@
 import '../../index.css';
-import { toast } from 'react-toastify';
+import { useNotification } from '../../multishareCodes/notificationProvider';
 import { useState, useRef } from 'react';
 import {
   EyeIcon,
@@ -21,6 +21,7 @@ const Login = () => {
   const [hovered, setHovered] = useState(false);
   const [forgotDialogOpen, setForgotDialogOpen] = useState(false);
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const { showNotification } = useNotification();
 
   const isEmpty = (val: string) => val.trim() === '';
   const isDisabled = isEmpty(gmail) || isEmpty(password);
@@ -54,35 +55,23 @@ const Login = () => {
 
       if (!response.ok) {
         const error = await response.text();
-        toast.error(`Login failed: ${error}`, {
-          position: "top-center",
-          autoClose: 5000,
-        });
+        showNotification(`Login failed: ${error}`, 'error');
         return;
       }
 
       const result = await response.json();
       const userId = result.user_id;
 
-      toast.success('Login successful!', {
-        position: "top-center",
-        autoClose: 3000,
-        onClose: async () => {
-          await fetchAndStoreUserInfo(userId);
-          navigate('/');
-        },
-      });
+      showNotification('Login successful!', 'success');
+      setTimeout(async () => {
+        await fetchAndStoreUserInfo(userId);
+        navigate('/');
+      }, 3000);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        toast.error(`Error while logging in: ${error.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-        });
+        showNotification(`Login failed: ${error}`, 'error');
       } else {
-        toast.error(`Error while logging in: ${String(error)}`, {
-          position: "top-center",
-          autoClose: 5000,
-        });
+        showNotification(`Error while logging in: ${String(error)}`, 'error');
       }
     }
   };
@@ -95,10 +84,7 @@ const Login = () => {
 
       if (!response.ok) {
         const errorText = await response.text();
-        toast.error(`Failed to fetch user info: ${errorText}`, {
-          position: "top-center",
-          autoClose: 5000,
-        });
+        showNotification(`Failed to fetch user info: ${errorText}`, 'error');
         return;
       }
 
@@ -110,13 +96,7 @@ const Login = () => {
       sessionStorage.setItem("phone", userData.phone);
       sessionStorage.setItem("balance", String(userData.balance));
     } catch (error: unknown) {
-      toast.error(
-        `Error fetching user data: ${error instanceof Error ? error.message : String(error)}`,
-        {
-          position: "top-center",
-          autoClose: 5000,
-        }
-      );
+      showNotification(`Error fetching user data: ${error instanceof Error ? error.message : String(error)}`, 'error');
     }
   };
 
