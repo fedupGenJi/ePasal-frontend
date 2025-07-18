@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import demoLogo from '../../assets/demologo.avif';
 import { BACKEND_URL } from '../../config';
-import { toast } from 'react-toastify';
+import { useNotification } from '../../multishareCodes/notificationProvider';
 import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
@@ -24,6 +24,7 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [hovered, setHovered] = useState(false);
   const hoverTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const { showNotification } = useNotification();
 
   const isEmpty = (val: string) => val.trim() === '';
   const isEmailValid = (val: string) => val.trim().endsWith('@gmail.com');
@@ -64,32 +65,21 @@ const Signup = () => {
   
       if (!response.ok) {
         const error = await response.text();
-        toast.error(`Signup failed: ${error}`, {
-          position: "top-center",
-          autoClose: 5000,
-        });
+        showNotification(`Signup failed: ${error}`, 'error');
         return;
       }
   
       const result = await response.json();
-      toast.success('Signup successful! Sending OTP...', {
-        position: "top-center",
-        autoClose: 3000,
-        onClose: () => {
-          navigate('/otp', { state: { temp_id: result.temp_id, otp: result.otp } });
-        },
-      });
+      showNotification('Signup successful! Sending OTP...', 'success');
+
+      setTimeout(() => {
+        navigate('/otp', { state: { temp_id: result.temp_id, otp: result.otp } });
+      }, 3000);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        toast.error(`Error while signing up: ${error.message}`, {
-          position: "top-center",
-          autoClose: 5000,
-        });
+        showNotification(`Error while signing up: ${error instanceof Error ? error.message : String(error)}`, 'error');
       } else {
-        toast.error(`Error while signing up: ${String(error)}`, {
-          position: "top-center",
-          autoClose: 5000,
-        });
+       showNotification(`Error while signing up: ${error instanceof Error ? error.message : String(error)}`, 'error');
       }
     }
   };
