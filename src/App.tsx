@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
 
 import Home from './pages/homePage';
-
+import AdminPage from './admin/adminPage'
 // Laptop versions
 import LoginLaptop from './pages/auth/login';
 import SignupLaptop from './pages/auth/signup';
@@ -37,6 +37,7 @@ function App() {
           path="/otp"
           element={isLaptop ? <OtpLaptop /> : <Otp />}
         />
+        <Route path="/adminhomepage" element={<AdminPage />} />
       </Routes>
 
       <ToastContainer

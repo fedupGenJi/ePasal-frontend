@@ -61,15 +61,33 @@ const Login = () => {
 
       const result = await response.json();
       const userId = result.user_id;
+      const status = result.status;
 
       showNotification('Login successful!', 'success');
+
       setTimeout(async () => {
+        const userInfoResponse = await fetch(`${BACKEND_URL}/user/${userId}`, {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (!userInfoResponse.ok) {
+          const error = await userInfoResponse.text();
+          showNotification(`Failed to retrieve user info: ${error}`, 'error');
+          return;
+        }
+
         await fetchAndStoreUserInfo(userId);
-        navigate('/');
+
+        if (status === 'admin') {
+          navigate('/adminhomepage');
+        } else {
+          navigate('/');
+        }
       }, 3000);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        showNotification(`Login failed: ${error}`, 'error');
+        showNotification(`Login failed: ${error.message}`, 'error');
       } else {
         showNotification(`Error while logging in: ${String(error)}`, 'error');
       }
@@ -90,11 +108,10 @@ const Login = () => {
 
       const userData = await response.json();
 
-      sessionStorage.setItem("userId", userData.userId);
+      sessionStorage.setItem("userId", userData.user_id);
       sessionStorage.setItem("name", userData.name);
       sessionStorage.setItem("email", userData.email);
-      sessionStorage.setItem("phone", userData.phone);
-      sessionStorage.setItem("balance", String(userData.balance));
+      sessionStorage.setItem("phone", userData.phonenumber);
     } catch (error: unknown) {
       showNotification(`Error fetching user data: ${error instanceof Error ? error.message : String(error)}`, 'error');
     }
