@@ -11,12 +11,11 @@ const Home = () => {
     const session = sessionStorage.getItem('userId');
     setUserId(session);
   }, []);
-
   const isLoggedIn = !!userId;
 
   return (
     <>
-      <Navbar isLoggedIn={isLoggedIn} userId={userId} />
+      <Navbar isLoggedIn={isLoggedIn}/>
 
       <Footer />
     </>
