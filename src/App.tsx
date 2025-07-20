@@ -5,6 +5,7 @@ import './index.css'
 
 import Home from './pages/homePage';
 import AdminPage from './admin/adminPage'
+import ProductPage from './admin/addproduct'
 // Laptop versions
 import LoginLaptop from './pages/auth/login';
 import SignupLaptop from './pages/auth/signup';
@@ -38,6 +39,7 @@ function App() {
           element={isLaptop ? <OtpLaptop /> : <Otp />}
         />
         <Route path="/adminhomepage" element={<AdminPage />} />
+        <Route path="/addproduct" element={<ProductPage/>} />
       </Routes>
 
       <ToastContainer

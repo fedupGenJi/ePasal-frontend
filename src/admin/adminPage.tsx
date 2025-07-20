@@ -1,19 +1,11 @@
 import React from 'react';
+import AdminLayout from './adminLayout';
 
 const AdminPage: React.FC = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: '3rem',
-        fontWeight: 'bold',
-      }}
-    >
-      admin
-    </div>
+    <AdminLayout pageName="Dashboard">
+      <p>Welcome to your admin dashboard!</p>
+    </AdminLayout>
   );
 };
 
