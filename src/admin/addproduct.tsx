@@ -1,12 +1,12 @@
 import React from 'react';
 import AdminLayout from './adminLayout';
 
-const AdminPage: React.FC = () => {
+const ProductPage: React.FC = () => {
   return (
-    <AdminLayout pageName="Dashboard">
+    <AdminLayout pageName="addproduct">
       <p>Welcome to your admin dashboard!</p>
     </AdminLayout>
   );
 };
 
-export default AdminPage;
+export default ProductPage;
