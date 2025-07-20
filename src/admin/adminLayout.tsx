@@ -82,7 +82,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ pageName, children }) => {
         )}
       </div>
 
-      <div style={{ display: 'flex', height: 'calc(100vh - 80px)' }}>
+      <div style={{ display: 'flex', minHeight: 'calc(100vh - 80px)' }}>
         <div
           style={{
             width: '220px',
