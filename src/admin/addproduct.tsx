@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from './adminLayout';
+import { BACKEND_URL } from '../config';
+import { useNotification } from '../multishareCodes/notificationProvider';
 
 const ProductPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -27,6 +29,7 @@ const ProductPage: React.FC = () => {
 
   const [facePreview, setFacePreview] = useState<string | null>(null);
   const [sidePreviews, setSidePreviews] = useState<string[]>([]);
+  const { showNotification } = useNotification();
 
   useEffect(() => {
     if (formData.faceImage) {
@@ -87,19 +90,60 @@ const ProductPage: React.FC = () => {
       alert('Please fill all fields and upload a face image.');
       return;
     }
+    submitProduct();
+  };
 
+  const submitProduct = async () => {
     const payload = new FormData();
-    for (const key in formData) {
-      if (key === 'faceImage' && formData.faceImage) {
-        payload.append('faceImage', formData.faceImage);
-      } else if (key === 'sideImages') {
-        formData.sideImages.forEach((file) => payload.append('sideImages[]', file));
-      } else {
-        payload.append(key, String(formData[key as keyof typeof formData]));
-      }
-    }
 
-    console.log('Form ready to submit!', formData);
+    const laptopForm = {
+      brand_name: formData.brand_name,
+      model_name: formData.model_name,
+      model_year: parseInt(formData.model_year),
+      product_type: formData.product_type,
+      cost_price: parseFloat(formData.cost_price),
+      ram: parseInt(formData.ram),
+      ram_type: formData.ram_type,
+      storage: parseInt(formData.storage),
+      storage_type: formData.storage_type,
+      processor: formData.processor,
+      processor_series: formData.processor_series,
+      graphic_ram: parseInt(formData.graphic_ram),
+      graphic: formData.graphic,
+      warranty: formData.warranty,
+      display: formData.display,
+      display_type: formData.display_type,
+      quantity: parseInt(formData.quantity),
+      touchscreen:
+        typeof formData.touchscreen === "string"
+          ? formData.touchscreen === "true"
+          : Boolean(formData.touchscreen),
+    };
+
+    payload.append("form", JSON.stringify(laptopForm));
+
+    if (formData.faceImage) {
+      payload.append("faceImage", formData.faceImage);
+    }
+    formData.sideImages.forEach((img) => payload.append("sideImages[]", img));
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/insertion`, {
+        method: "POST",
+        body: payload,
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showNotification(result.message || "✅ Product successfully added!", "success");
+      } else {
+        showNotification(result.message || "❌ Failed to add product.", "error");
+      }
+    } catch (error) {
+      console.error("Error submitting product:", error);
+      showNotification("❌ Request error.", "error");
+    }
   };
 
   const inputClass =
@@ -207,11 +251,10 @@ const ProductPage: React.FC = () => {
         <button
           type="submit"
           disabled={!isFormValid()}
-          className={`w-full py-2 text-white font-semibold rounded transition duration-300 ${
-            isFormValid()
-              ? 'bg-blue-600 hover:bg-blue-700'
-              : 'bg-gray-400 cursor-not-allowed'
-          }`}
+          className={`w-full py-2 text-white font-semibold rounded transition duration-300 ${isFormValid()
+            ? 'bg-blue-600 hover:bg-blue-700'
+            : 'bg-gray-400 cursor-not-allowed'
+            }`}
         >
           Insert
         </button>
