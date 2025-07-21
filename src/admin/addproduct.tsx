@@ -27,6 +27,34 @@ const ProductPage: React.FC = () => {
     sideImages: [] as File[],
   });
 
+  const resetForm = () => {
+    setFormData({
+      brand_name: '',
+      model_name: '',
+      model_year: '',
+      product_type: '',
+      cost_price: '',
+      ram: '',
+      ram_type: '',
+      storage: '',
+      storage_type: '',
+      processor: '',
+      processor_series: '',
+      graphic_ram: '',
+      graphic: '',
+      warranty: '',
+      display: '',
+      display_type: '',
+      quantity: '',
+      touchscreen: false,
+      faceImage: null,
+      sideImages: [],
+    });
+
+    setFacePreview(null);
+    setSidePreviews([]);
+  };
+
   const [facePreview, setFacePreview] = useState<string | null>(null);
   const [sidePreviews, setSidePreviews] = useState<string[]>([]);
   const { showNotification } = useNotification();
@@ -137,6 +165,7 @@ const ProductPage: React.FC = () => {
 
       if (response.ok) {
         showNotification(result.message || "✅ Product successfully added!", "success");
+        resetForm();
       } else {
         showNotification(result.message || "❌ Failed to add product.", "error");
       }
