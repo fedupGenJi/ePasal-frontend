@@ -7,7 +7,6 @@ import Home from './pages/homePage';
 import AdminPage from './admin/adminPage'
 import ProductPage from './admin/addproduct'
 import Inventory from './admin/inventory'
-import Conversation from './pages/conversation'
 
 // Laptop versions
 import LoginLaptop from './pages/auth/login';
@@ -44,7 +43,6 @@ function App() {
         <Route path="/adminhomepage" element={<AdminPage />} />
         <Route path="/addproduct" element={<ProductPage/>} />
         <Route path="/inventory" element={<Inventory/>} />
-        <Route path="/conversation" element={<Conversation/>} />
       </Routes>
 
       <ToastContainer

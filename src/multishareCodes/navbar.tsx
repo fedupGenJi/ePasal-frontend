@@ -12,7 +12,7 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
   type MenuName = "home" | "contact" | "accessories" | "laptop" | null;
   const [openMenu, setOpenMenu] = useState<MenuName>(null);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
-  const [, setUserData] = useState({
+  const [,setUserData] = useState({
     name: "",
     email: "",
     phone: "",
@@ -150,7 +150,7 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
             {["home", "contact", "accessories", "laptop"].map((item) => (
               <li
                 key={item}
-                className={`relative flex items-center cursor-pointer ${openMenu === item ? "font-bold" : "font-normal"
+                className={`flex items-center cursor-pointer ${openMenu === item ? "font-bold" : "font-normal"
                   }`}
                 onClick={() => toggleMenu(item as MenuName)}
               >
@@ -162,23 +162,6 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
                     }`}
                   style={{ top: "2px" }}
                 />
-
-                {item === "contact" && openMenu === "contact" && (
-                  <ul className="absolute top-full left-0 mt-2 w-56 bg-white text-gray-800 shadow-xl rounded-xl z-50 border border-gray-200 overflow-hidden transition-all duration-300 animate-fade-in-down">
-                    <li
-                      onClick={() => {
-                        const userId = sessionStorage.getItem("userId");
-                        navigate("/conversation", {
-                          state: { userId },
-                        });
-                        setOpenMenu(null);
-                      }}
-                      className="px-5 py-3 hover:bg-blue-100 hover:text-blue-700 font-light cursor-pointer transition-all duration-200 active:bg-blue-200"
-                    >
-                      🗨️ Open Conversation
-                    </li>
-                  </ul>
-                )}
               </li>
             ))}
           </ul>
