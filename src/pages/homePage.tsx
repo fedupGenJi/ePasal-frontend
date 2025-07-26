@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Navbar from '../multishareCodes/navbar';
 import Footer from '../multishareCodes/footer';
+import Ads from '../multishareCodes/ads';
 
 const Home = () => {
   const [userId, setUserId] = useState<string | null>(null);
@@ -16,7 +17,7 @@ const Home = () => {
   return (
     <>
       <Navbar isLoggedIn={isLoggedIn}/>
-
+      <Ads />
       <Footer />
     </>
   );
