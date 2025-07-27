@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 
 // Dynamically import all images from the ads folder
 const adImages = Object.values(
-  import.meta.glob('/src/assets/ads/*.{jpg,png,jpeg,gif,webp,avif}', { eager: true, as: 'url' })
+  import.meta.glob('/src/assets/ads/*/*.{jpg,png,jpeg,gif,webp,avif}', { eager: true, as: 'url' })
 );
 
 function getTwoRandomImages() {
