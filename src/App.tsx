@@ -5,7 +5,7 @@ import './index.css'
 
 import Home from './pages/homePage';
 import AdminPage from './admin/adminPage'
-import ProductPage from './admin/addproduct'
+import ProductPage from './pages/product page/Page'
 import Inventory from './admin/inventory'
 
 // Laptop versions
@@ -27,6 +27,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/product-page" element={<ProductPage />} />
         <Route
           path="/login"
           element={isLaptop ? <LoginLaptop /> : <Login />}
