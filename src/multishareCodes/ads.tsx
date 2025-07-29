@@ -1,22 +1,36 @@
 import React, { useMemo, useState, useEffect } from 'react';
 
-// Dynamically import all images from the ads folder
-const adImages = Object.values(
-  import.meta.glob('/src/assets/ads/*/*.{jpg,png,jpeg,gif,webp,avif}', { eager: true, as: 'url' })
-);
-
-function getTwoRandomImages() {
-  if (adImages.length < 2) return [adImages[0], adImages[0]];
-  const firstIdx = Math.floor(Math.random() * adImages.length);
-  let secondIdx = Math.floor(Math.random() * (adImages.length - 1));
-  if (secondIdx >= firstIdx) secondIdx++;
-  return [adImages[firstIdx], adImages[secondIdx]];
+interface AdsProps {
+  pageName?: string; // Optional: empty or undefined means homepage
 }
 
-const Ads: React.FC = () => {
-  // Pick two different random images on each render
-  const [img1, img2] = useMemo(getTwoRandomImages, []);
-  const [ratios, setRatios] = useState([1.78, 1.78]); // Default 16:9 aspect ratio
+const Ads: React.FC<AdsProps> = ({ pageName }) => {
+  // Import and filter image paths
+  const adImages = useMemo(() => {
+    const allAds = import.meta.glob('/src/assets/ads/*/*.{jpg,png,jpeg,gif,webp,avif}', {
+      eager: true,
+      as: 'url',
+    });
+
+    return Object.entries(allAds)
+      .filter(([path]) => {
+        if (!pageName) return true;
+        return path.includes(`/ads/${pageName}/`);
+      })
+      .map(([, url]) => url as string);
+  }, [pageName]);
+
+  function getTwoRandomImages() {
+    if (adImages.length === 0) return [undefined, undefined];
+    if (adImages.length === 1) return [adImages[0], adImages[0]];
+    const firstIdx = Math.floor(Math.random() * adImages.length);
+    let secondIdx = Math.floor(Math.random() * (adImages.length - 1));
+    if (secondIdx >= firstIdx) secondIdx++;
+    return [adImages[firstIdx], adImages[secondIdx]];
+  }
+
+  const [img1, img2] = useMemo(getTwoRandomImages, [adImages]);
+  const [ratios, setRatios] = useState([1, 3.2]);
 
   useEffect(() => {
     const imgs = [img1, img2];
@@ -24,38 +38,42 @@ const Ads: React.FC = () => {
       imgs.map(
         src =>
           new Promise<number>(resolve => {
-            const i = new window.Image();
+            if (!src) return resolve(3.2);
+            const i = new Image();
             i.onload = () => resolve(i.naturalWidth / i.naturalHeight);
-            i.onerror = () => resolve(1.78);
+            i.onerror = () => resolve(3.2);
             i.src = src;
           })
       )
     ).then(setRatios);
   }, [img1, img2]);
 
+  if (!img1 || !img2) return null;
+
   return (
-    <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row md:justify-between gap-3 my-4 overflow-x-hidden">
-      {[img1, img2].map((img, idx) => (
-        <div
-          key={idx}
-          className="relative w-full md:w-1/2 max-w-full rounded-3xl overflow-hidden shadow-xl flex items-center justify-center"
-          style={{
-            backgroundColor: '#f3f4f6',
-            aspectRatio: ratios[idx],
-            height: 'auto',
-          }}
-        >
-          <img
-            src={img}
-            alt="Ad image"
-            className="w-full h-full object-cover"
-            draggable="false"
-            style={{ aspectRatio: ratios[idx] }}
-          />
-        </div>
-      ))}
+    <div className="w-full px-4 md:px-8 my-6">
+      <div className="flex flex-col md:flex-row gap-4">
+        {[img1, img2].map((img, idx) => (
+          <div
+            key={idx}
+            className="flex-1 rounded-2xl overflow-hidden shadow-md"
+            style={{
+              aspectRatio: ratios[idx],
+              backgroundColor: '#f3f4f6',
+            }}
+          >
+            <img
+              src={img}
+              alt="Ad"
+              className="w-full h-full object-cover"
+              draggable="false"
+              style={{ aspectRatio: ratios[idx] }}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
 
-export default Ads; 
+export default Ads;

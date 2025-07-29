@@ -40,16 +40,20 @@ const Home = () => {
     fetch_top_picks();
   }, []);
 
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
     if (top_picks.length <= 5) return;
 
-    const interval = setInterval(() => {
+    const id = setInterval(() => {
       setCurrentIndex((prevIndex) =>
         prevIndex + 1 < top_picks.length ? prevIndex + 1 : 0
       );
     }, 3000);
 
-    return () => clearInterval(interval);
+    setIntervalId(id);
+
+    return () => clearInterval(id);
   }, [top_picks]);
 
   const is_logged_in = !!user_id;
@@ -67,6 +71,7 @@ const Home = () => {
       <>
         <Navbar isLoggedIn={is_logged_in} />
         <Ads />
+        <div style={{ height: '40px' }} />
         <div
           style={{
             textAlign: 'center',
@@ -77,7 +82,9 @@ const Home = () => {
         >
           TOP PICKS
         </div>
+        <div style={{ height: '20px' }} />
         <div style={{ textAlign: 'center', marginTop: '20px' }}>Loading...</div>
+        <div style={{ height: '20px' }} />
         <Footer />
       </>
     );
@@ -87,7 +94,7 @@ const Home = () => {
     <>
       <Navbar isLoggedIn={is_logged_in} />
       <Ads />
-
+      <div style={{ height: '40px' }} />
       <div
         style={{
           textAlign: 'center',
@@ -98,22 +105,43 @@ const Home = () => {
       >
         TOP PICKS
       </div>
+      <div style={{ height: '20px' }} />
       <div className="top-picks-wrapper">
-        <div className="top-picks-slider">
-          {getVisibleItems().map((item, index) => (
-            <div key={`${item.id}-${index}`} className="top-pick-box">
-              <div className="image-container">
-                <img src={item.image} alt={item.display_name} />
+        <div
+          className="top-picks-slider"
+          onMouseEnter={() => {
+            if (intervalId) clearInterval(intervalId);
+          }}
+          onMouseLeave={() => {
+            if (top_picks.length > 5) {
+              const id = setInterval(() => {
+                setCurrentIndex((prevIndex) =>
+                  prevIndex + 1 < top_picks.length ? prevIndex + 1 : 0
+                );
+              }, 3000);
+              setIntervalId(id);
+            }
+          }}
+        >
+          {getVisibleItems().map((item, index) => {
+            const className = `top-pick-box${index === 0 ? ' left-most' : index === 4 ? ' right-most' : ''
+              }`;
+
+            return (
+              <div key={`${item.id}-${index}`} className={className}>
+                <div className="image-container">
+                  <img src={item.image} alt={item.display_name} />
+                </div>
+                <div className="info">
+                  <div className="display-name">{item.display_name}</div>
+                  <div className="price">{item.show_price}</div>
+                </div>
               </div>
-              <div className="info">
-                <div className="display-name">{item.display_name}</div>
-                <div className="price">{item.show_price}</div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
-
+      <div style={{ height: '40px' }} />
       <Footer />
     </>
   );

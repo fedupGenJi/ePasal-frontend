@@ -1,5 +1,5 @@
 .top-picks-wrapper {
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
   padding: 0;
   box-sizing: border-box;
@@ -22,11 +22,28 @@
   flex-direction: column;
   justify-content: flex-start;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease, z-index 0.3s ease;
+  position: relative;
+   transform-origin: center center;
+}
+
+.top-pick-box.left-most {
+  transform-origin: left center;
+}
+
+.top-pick-box.right-most {
+  transform-origin: right center;
 }
 
 .top-pick-box:hover {
-  transform: scale(1.02);
+  transform: scale(1.25);
+  z-index: 10;
+}
+
+.top-pick-box:hover .display-name {
+  -webkit-line-clamp: unset;
+  height: auto;
+  white-space: normal;
 }
 
 .image-container {
