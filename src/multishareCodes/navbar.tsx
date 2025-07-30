@@ -215,7 +215,7 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
                           }}
                           className="px-5 py-3 hover:bg-blue-100 hover:text-blue-1000 font-light cursor-pointer transition-all duration-200 active:bg-blue-200"
                         >
-                           Lenovo Laptops
+                           Lenovo 
                         </li>
                         <li
                           onClick={() => {
