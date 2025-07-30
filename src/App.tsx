@@ -5,7 +5,8 @@ import './index.css'
 
 import Home from './pages/homePage';
 import AdminPage from './admin/adminPage'
-import ProductPage from './admin/addproduct'
+import ProductPage from './pages/product page/Page'
+import AddProduct from './admin/addproduct'
 import Inventory from './admin/inventory'
 import CustomerSupport from './admin/customers';
 
@@ -30,6 +31,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/product-page" element={<ProductPage />} />
         <Route
           path="/login"
           element={isLaptop ? <LoginLaptop /> : <Login />}
@@ -44,7 +46,7 @@ function App() {
           element={isLaptop ? <OtpLaptop /> : <Otp />}
         />
         <Route path="/adminhomepage" element={<AdminPage />} />
-        <Route path="/addproduct" element={<ProductPage/>} />
+        <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/inventory" element={<Inventory/>} />
         <Route path="/support" element={<CustomerSupport/>} />
         <Route path="/conversation" element={<Conversation/>} />
