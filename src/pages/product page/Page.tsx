@@ -1,11 +1,12 @@
 import { Button } from "../../components/ui/button";
-import { ShoppingCart, Heart, Scale, Phone } from "lucide-react";
+import { ShoppingCart, Heart, Scale } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
 import Navbar from "../../multishareCodes/navbar";
 import Footer from "../../multishareCodes/footer";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { BACKEND_URL } from "../../config";
+
 
 interface ProductDetails {
   brand_name: string;
@@ -32,6 +33,7 @@ interface ProductDetails {
   power_supply: string;
   touchscreen: boolean;
   cost_price: number;
+  quantity: number;
   faceImage: string;
   sideImages: string[];
 }
@@ -101,7 +103,7 @@ export default function ProductPage() {
               </div>
             </div>
 
-            <div className="text-4xl font-bold text-red-600">NPR {product?.cost_price.toLocaleString()}</div>
+            <div className="text-4xl font-bold text-red-600">Rs. {product?.cost_price.toLocaleString()}</div>
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Key Specifications:</h3>
@@ -126,9 +128,8 @@ export default function ProductPage() {
                 <ShoppingCart className="w-5 h-5 mr-2" />
                 Add to Cart
               </Button>
-              <Button size="lg" variant="outline" className="flex-1 bg-transparent">
-                <Heart className="w-5 h-5 mr-2" />
-                Add to Wishlist
+              <Button size="lg" variant="outline" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white">
+                Buy Now
               </Button>
             </div>
 
@@ -137,16 +138,16 @@ export default function ProductPage() {
                 <Scale className="w-4 h-4 mr-2" />
                 Compare
               </Button>
-              <Button variant="outline" className="flex-1 bg-transparent">
-                <Phone className="w-4 h-4 mr-2" />
-                Call for Price
-              </Button>
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg">
               <h4 className="font-semibold mb-2">Availability & Delivery</h4>
               <p className="text-sm text-gray-600">
-                ✅ In Stock - Ready for immediate delivery
+                {product && product.quantity > 0 ? (
+                  <>✅ In Stock - Ready for immediate delivery ({product.quantity} units available)</>
+                ) : (
+                  <>❌ Out of Stock - Currently unavailable</>
+                )}
                 <br />🚚 Free delivery within Kathmandu Valley
                 <br />📞 Call us for bulk orders and corporate deals
               </p>
