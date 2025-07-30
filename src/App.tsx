@@ -4,6 +4,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
 
 import Home from './pages/homePage';
+import AcerPage from './pages/acer';
+import AsusPage from './pages/asus';
+import LenovoPage from './pages/lenovo';
+import MsiPage from './pages/msi';
 import AdminPage from './admin/adminPage'
 import ProductPage from './admin/addproduct'
 import Inventory from './admin/inventory'
@@ -30,6 +34,10 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/acer" element={<AcerPage />} />
+        <Route path="/asus" element={<AsusPage />} />
+        <Route path="/lenovo" element={<LenovoPage />} />
+        <Route path="/msi" element={<MsiPage />} />
         <Route
           path="/login"
           element={isLaptop ? <LoginLaptop /> : <Login />}

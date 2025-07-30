@@ -187,6 +187,47 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
                         </li>
                       </ul>
                     )}
+
+                    {item === "laptop" && openMenu === "laptop" && (
+                      <ul className="absolute top-full left-0 mt-2 w-56 bg-white text-gray-800 shadow-xl rounded-xl z-50 border border-gray-200 overflow-hidden transition-all duration-300 animate-fade-in-down">
+                        <li
+                          onClick={() => {
+                            navigate("/acer");
+                            setOpenMenu(null);
+                          }}
+                          className="px-5 py-3 hover:bg-blue-100 hover:text-blue-1000 font-light cursor-pointer transition-all duration-200 active:bg-blue-200 "
+                        >
+                           Acer 
+                        </li>
+                        <li
+                          onClick={() => {
+                            navigate("/asus");
+                            setOpenMenu(null);
+                          }}
+                          className="px-5 py-3 hover:bg-blue-100 hover:text-blue-1000 font-light cursor-pointer transition-all duration-200 active:bg-blue-200"
+                        >
+                           Asus 
+                        </li>
+                        <li
+                          onClick={() => {
+                            navigate("/lenovo");
+                            setOpenMenu(null);
+                          }}
+                          className="px-5 py-3 hover:bg-blue-100 hover:text-blue-1000 font-light cursor-pointer transition-all duration-200 active:bg-blue-200"
+                        >
+                           Lenovo Laptops
+                        </li>
+                        <li
+                          onClick={() => {
+                            navigate("/msi");
+                            setOpenMenu(null);
+                          }}
+                          className="px-5 py-3 hover:bg-blue-100 hover:text-blue-1000 font-light cursor-pointer transition-all duration-200 active:bg-blue-200"
+                        >
+                           MSI 
+                        </li>
+                      </ul>
+                    )}
                   </>
                 )}
               </li>
