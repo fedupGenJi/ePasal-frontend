@@ -23,7 +23,7 @@ const Home = () => {
           onClick={() => navigate('/product-page')}
           className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
         >
-          View Products
+          View Products1
         </button>
       </div>
       <Ads />

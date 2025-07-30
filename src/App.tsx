@@ -6,6 +6,7 @@ import './index.css'
 import Home from './pages/homePage';
 import AdminPage from './admin/adminPage'
 import ProductPage from './pages/product page/Page'
+import AddProduct from './admin/addproduct'
 import Inventory from './admin/inventory'
 
 // Laptop versions
@@ -42,7 +43,7 @@ function App() {
           element={isLaptop ? <OtpLaptop /> : <Otp />}
         />
         <Route path="/adminhomepage" element={<AdminPage />} />
-        <Route path="/addproduct" element={<ProductPage/>} />
+        <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/inventory" element={<Inventory/>} />
       </Routes>
 
