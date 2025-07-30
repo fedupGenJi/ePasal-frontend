@@ -8,6 +8,9 @@ import AdminPage from './admin/adminPage'
 import ProductPage from './pages/product page/Page'
 import AddProduct from './admin/addproduct'
 import Inventory from './admin/inventory'
+import CustomerSupport from './admin/customers';
+
+import Conversation from './pages/conversation'
 
 // Laptop versions
 import LoginLaptop from './pages/auth/login';
@@ -45,6 +48,8 @@ function App() {
         <Route path="/adminhomepage" element={<AdminPage />} />
         <Route path="/addproduct" element={<AddProduct />} />
         <Route path="/inventory" element={<Inventory/>} />
+        <Route path="/support" element={<CustomerSupport/>} />
+        <Route path="/conversation" element={<Conversation/>} />
       </Routes>
 
       <ToastContainer
