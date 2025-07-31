@@ -93,6 +93,7 @@ const Home = () => {
   return (
     <>
       <Navbar isLoggedIn={is_logged_in} />
+
       <Ads />
       <div style={{ height: '40px' }} />
       <div
@@ -124,11 +125,15 @@ const Home = () => {
           }}
         >
           {getVisibleItems().map((item, index) => {
-            const className = `top-pick-box${index === 0 ? ' left-most' : index === 4 ? ' right-most' : ''
-              }`;
+            const className = `top-pick-box${index === 0 ? ' left-most' : index === 4 ? ' right-most' : ''}`;
 
             return (
-              <div key={`${item.id}-${index}`} className={className}>
+              <div
+                key={`${item.id}-${index}`}
+                className={className}
+                onClick={() => navigate(`/product-page?id=${item.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="image-container">
                   <img src={item.image} alt={item.display_name} />
                 </div>
