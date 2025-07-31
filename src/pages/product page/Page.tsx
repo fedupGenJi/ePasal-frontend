@@ -71,9 +71,11 @@ export default function ProductPage() {
           <div className="space-y-4">
             <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src={product?.faceImage || '/placeholder.svg?height=500&width=500'}
+                src={product?.faceImage ? `${BACKEND_URL}/${product.faceImage}` : '/placeholder.svg?height=500&width=500'}
                 alt={product?.display_name || "Product Image"}
                 className="w-full h-full object-cover"
+                style={{ imageRendering: 'crisp-edges' }}
+                loading="eager"
               />
             </div>
             <div className="grid grid-cols-4 gap-2">
@@ -83,9 +85,11 @@ export default function ProductPage() {
                   className="aspect-square bg-gray-100 rounded border-2 border-transparent hover:border-red-500 cursor-pointer"
                 >
                   <img
-                    src={image}
+                    src={`${BACKEND_URL}/${image}`}
                     alt={`${product.display_name} view ${i + 1}`}
                     className="w-full h-full object-cover"
+                    style={{ imageRendering: 'crisp-edges' }}
+                    loading={i < 2 ? "eager" : "lazy"}
                   />
                 </div>
               )) || []}
