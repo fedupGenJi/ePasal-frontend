@@ -135,7 +135,20 @@ const Home = () => {
                 style={{ cursor: 'pointer' }}
               >
                 <div className="image-container">
-                  <img src={item.image} alt={item.display_name} />
+                  <img
+                    src={item.image}
+                    alt={item.display_name}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (!target.dataset.fallbackTried) {
+                        target.dataset.fallbackTried = 'true';
+                        target.src = `${BACKEND_URL}/${item.image}`;
+                      } else if (!target.dataset.secondFallbackTried) {
+                        target.dataset.secondFallbackTried = 'true';
+                        target.src = 'https://http.cat/404';
+                      }
+                    }}
+                  />
                 </div>
                 <div className="info">
                   <div className="display-name">{item.display_name}</div>

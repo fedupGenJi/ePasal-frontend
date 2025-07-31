@@ -37,12 +37,12 @@ const Shop = () => {
 
           <div style={{ marginBottom: '20px' }}>
             <label><strong>Brand:</strong></label><br />
-            <input type="checkbox" id="dell" />
-            <label htmlFor="dell"> Dell</label><br />
-            <input type="checkbox" id="hp" />
-            <label htmlFor="hp"> HP</label><br />
-            <input type="checkbox" id="lenovo" />
-            <label htmlFor="lenovo"> Lenovo</label><br />
+            <input type="checkbox" id="lenevo" />
+            <label htmlFor="lenevo"> Lenevo</label><br />
+            <input type="checkbox" id="msi" />
+            <label htmlFor="msi"> MSI</label><br />
+            <input type="checkbox" id="acer" />
+            <label htmlFor="acer"> Acer</label><br />
             <input type="checkbox" id="asus" />
             <label htmlFor="asus"> ASUS</label>
           </div>
