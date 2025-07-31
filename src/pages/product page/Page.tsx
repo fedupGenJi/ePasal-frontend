@@ -68,51 +68,61 @@ export default function ProductPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Product Images */}
-          {product ? (
-            <div className="space-y-4">
-              <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                <img
-                  src={product.face_image || '/placeholder.svg?height=500&width=500'}
-                  alt={product.display_name || "Product Image"}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    if (!target.dataset.fallbackTried) {
-                      target.dataset.fallbackTried = "true";
-                      if (product.face_image) {
-                        target.src = `${BACKEND_URL}/${product.face_image}`;
-                      } else {
-                        target.src = '/placeholder.svg?height=500&width=500';
-                      }
-                    } else {
-                      target.src = '/placeholder.svg?height=500&width=500';
-                    }
-                  }}
-                />
-              </div>
-              <div className="grid grid-cols-4 gap-2">
-                {product.side_images?.map((image, i) => (
-                  <div
-                    key={i}
-                    className="aspect-square bg-gray-100 rounded border-2 border-transparent hover:border-red-500 cursor-pointer"
-                  >
-                    <img
-                      src={image}
-                      alt={`${product.display_name} view ${i + 1}`}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        if (!target.dataset.fallbackTried) {
-                          target.dataset.fallbackTried = "true";
-                          target.src = `${BACKEND_URL}/${image}`;
-                        } else {
-                          target.src = "https://http.cat/404";
-                        }
-                      }}
-                    />
-                  </div>
-                )) || []}
-              </div>
+<div className="space-y-4">
+  <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+    <img
+      src={
+        product?.faceImage
+          ? `${BACKEND_URL}/${product.faceImage}`
+          : '/placeholder.svg?height=500&width=500'
+      }
+      alt={product?.display_name || "Product Image"}
+      className="w-full h-full object-cover object-center"
+      width={800}
+      height={800}
+      loading="eager"
+      decoding="sync"
+      onError={(e) => {
+        const target = e.target as HTMLImageElement;
+        if (!target.dataset.fallbackTried) {
+          target.dataset.fallbackTried = "true";
+          if (product?.faceImage) {
+            target.src = '/placeholder.svg?height=500&width=500';
+          }
+        } else {
+          target.src = '/placeholder.svg?height=500&width=500';
+        }
+      }}
+    />
+  </div>
+
+  <div className="grid grid-cols-4 gap-2">
+    {(product?.sideImages || []).map((image, i) => (
+      <div
+        key={i}
+        className="aspect-square bg-gray-100 rounded border-2 border-transparent hover:border-red-500 cursor-pointer"
+      >
+        <img
+          src={`${BACKEND_URL}/${image}`}
+          alt={`${product?.display_name || "Product"} view ${i + 1}`}
+          className="w-full h-full object-cover object-center"
+          width={200}
+          height={200}
+          loading={i < 2 ? "eager" : "lazy"}
+          decoding="async"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            if (!target.dataset.fallbackTried) {
+              target.dataset.fallbackTried = "true";
+              target.src = "https://http.cat/404";
+            }
+          }}
+        />
+      </div>
+    ))}
+  </div>
+</div>
+
             </div>
           ) : (
             <p>Loading product...</p>
