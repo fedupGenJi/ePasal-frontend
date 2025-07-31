@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
 
 import Home from './pages/homePage';
+import Shop from './pages/shop';
 import AdminPage from './admin/adminPage'
 import ProductPage from './admin/addproduct'
 import Inventory from './admin/inventory'
@@ -30,6 +31,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop/>}/>
         <Route
           path="/login"
           element={isLaptop ? <LoginLaptop /> : <Login />}
