@@ -30,23 +30,8 @@ const Ads: React.FC<AdsProps> = ({ pageName }) => {
   }
 
   const [img1, img2] = useMemo(getTwoRandomImages, [adImages]);
-  const [ratios, setRatios] = useState([1, 3.2]);
-
-  useEffect(() => {
-    const imgs = [img1, img2];
-    Promise.all(
-      imgs.map(
-        src =>
-          new Promise<number>(resolve => {
-            if (!src) return resolve(3.2);
-            const i = new Image();
-            i.onload = () => resolve(i.naturalWidth / i.naturalHeight);
-            i.onerror = () => resolve(3.2);
-            i.src = src;
-          })
-      )
-    ).then(setRatios);
-  }, [img1, img2]);
+  // Force 16:9 aspect ratio for all images
+  const ratios = [16/9, 16/9];
 
   if (!img1 || !img2) return null;
 

@@ -4,7 +4,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
 
 import Home from './pages/homePage';
+
+import BrandPage from './pages/brandPage';
+
 import Shop from './pages/shop';
+
 import AdminPage from './admin/adminPage'
 import ProductPage from './pages/product page/Page'
 import AddProduct from './admin/addproduct'
@@ -55,6 +59,7 @@ function App() {
         <Route path="/inventory" element={<Inventory/>} />
         <Route path="/support" element={<CustomerSupport/>} />
         <Route path="/conversation" element={<Conversation/>} />
+        <Route path="/:brand" element={<BrandPage />} />
       </Routes>
 
       <ToastContainer
