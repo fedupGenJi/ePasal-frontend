@@ -92,15 +92,6 @@ const Home = () => {
 
   return (
     <>
-      <div className="flex justify-center my-8">
-        <button
-          onClick={() => navigate('/product-page')}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
-        >
-          View Products1
-        </button>
-      </div>
-      
       <Navbar isLoggedIn={is_logged_in} />
 
       <Ads />
@@ -134,11 +125,15 @@ const Home = () => {
           }}
         >
           {getVisibleItems().map((item, index) => {
-            const className = `top-pick-box${index === 0 ? ' left-most' : index === 4 ? ' right-most' : ''
-              }`;
+            const className = `top-pick-box${index === 0 ? ' left-most' : index === 4 ? ' right-most' : ''}`;
 
             return (
-              <div key={`${item.id}-${index}`} className={className}>
+              <div
+                key={`${item.id}-${index}`}
+                className={className}
+                onClick={() => navigate(`/product-page?id=${item.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
                 <div className="image-container">
                   <img src={item.image} alt={item.display_name} />
                 </div>
