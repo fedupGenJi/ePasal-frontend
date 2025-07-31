@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Navbar from '../multishareCodes/navbar';
-
+import Footer from '../multishareCodes/footer';
 const Shop = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -25,12 +25,12 @@ const Shop = () => {
             width: '30%',
             borderRight: '1px solid #ccc',
             padding: '20px',
-            position: 'fixed',
+            position: 'sticky',
             top: '120px',
             bottom: 0,
             left: 0,
             backgroundColor: '#f7f7f7',
-            overflowY: 'auto',
+            overflowY: 'hidden',
           }}
         >
           <h2>Filters</h2>
@@ -87,6 +87,8 @@ const Shop = () => {
           {/* Add product grid or list here */}
         </div>
       </div>
+
+      <Footer/>
     </>
   );
 };
