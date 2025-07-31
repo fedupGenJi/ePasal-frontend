@@ -73,9 +73,11 @@ export default function ProductPage() {
               <img
                 src={product?.faceImage ? `${BACKEND_URL}/${product.faceImage}` : '/placeholder.svg?height=500&width=500'}
                 alt={product?.display_name || "Product Image"}
-                className="w-full h-full object-cover"
-                style={{ imageRendering: 'crisp-edges' }}
+                className="w-full h-full object-cover object-center"
+                width={800}
+                height={800}
                 loading="eager"
+                decoding="sync"
               />
             </div>
             <div className="grid grid-cols-4 gap-2">
@@ -87,9 +89,11 @@ export default function ProductPage() {
                   <img
                     src={`${BACKEND_URL}/${image}`}
                     alt={`${product.display_name} view ${i + 1}`}
-                    className="w-full h-full object-cover"
-                    style={{ imageRendering: 'crisp-edges' }}
+                    className="w-full h-full object-cover object-center"
+                    width={200}
+                    height={200}
                     loading={i < 2 ? "eager" : "lazy"}
+                    decoding="async"
                   />
                 </div>
               )) || []}
