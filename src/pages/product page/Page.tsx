@@ -6,6 +6,7 @@ import Footer from "../../multishareCodes/footer";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { BACKEND_URL } from "../../config";
+import "./productPage.css";
 
 interface ProductDetails {
   brand_name: string;
@@ -39,6 +40,7 @@ interface ProductDetails {
 
 export default function ProductPage() {
   const [product, setProduct] = useState<ProductDetails | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -52,6 +54,8 @@ export default function ProductPage() {
 
         const data = await response.json();
         setProduct(data);
+        // Set the default selected image to the face image
+        setSelectedImage(data.face_image);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -70,47 +74,93 @@ export default function ProductPage() {
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Product Images */}
               <div className="space-y-4">
-                <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                  <img
-                    src={product.face_image || "/placeholder.svg?height=500&width=500"}
-                    alt={product.display_name || "Product Image"}
-                    className="w-full h-full object-cover object-center"
-                    width={800}
-                    height={800}
-                    loading="eager"
-                    decoding="sync"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      if (!target.dataset.fallbackTried) {
-                        target.dataset.fallbackTried = "true";
-                        target.src = `${BACKEND_URL}/${product.face_image}`;
-                      } else if (!target.dataset.secondFallbackTried) {
-                        target.dataset.secondFallbackTried = "true";
-                        target.src = "https://http.cat/404";
-                      }
-                    }}
-                  />
+                <div 
+                  className="aspect-square bg-white rounded-lg overflow-hidden product-image-magnifier shadow-sm"
+                  onMouseMove={(e) => {
+                    const container = e.currentTarget;
+                    const { left, top, width, height } = container.getBoundingClientRect();
+                    const x = ((e.clientX - left) / width) * 100;
+                    const y = ((e.clientY - top) / height) * 100;
+                    container.style.setProperty('--x', `${x}%`);
+                    container.style.setProperty('--y', `${y}%`);
+                  }}
+                >
+                  <div className="product-image-container">
+                    <img
+                      src={`${BACKEND_URL}/${selectedImage || product.face_image}`}
+                      alt={product.display_name || "Product Image"}
+                      className="product-image"
+                      width={800}
+                      height={800}
+                      loading="eager"
+                      decoding="async"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        if (!target.dataset.fallbackTried) {
+                          target.dataset.fallbackTried = "true";
+                          target.src = selectedImage || product.face_image; // Try direct URL if BACKEND_URL prefix fails
+                        } else if (!target.dataset.secondFallbackTried) {
+                          target.dataset.secondFallbackTried = "true";
+                          target.src = "https://http.cat/404";
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
 
                 <div className="grid grid-cols-4 gap-2">
+                  {/* Add the main image as first thumbnail */}
+                  <div
+                    key="main"
+                    className={`aspect-square bg-white rounded border-2 ${selectedImage === product.face_image ? 'border-red-500' : 'border-transparent hover:border-red-500'} cursor-pointer thumbnail-container shadow-sm`}
+                    onClick={() => {
+                      console.log(`Setting selected image to main: ${product.face_image}`);
+                      setSelectedImage(product.face_image);
+                    }}
+                  >
+                    <img
+                      src={`${BACKEND_URL}/${product.face_image}`}
+                      alt={`${product.display_name || "Product"} main view`}
+                      className="thumbnail-image"
+                      width={200}
+                      height={200}
+                      loading="eager"
+                      decoding="async"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        if (!target.dataset.fallbackTried) {
+                          target.dataset.fallbackTried = "true";
+                          target.src = product.face_image;
+                        } else if (!target.dataset.secondFallbackTried) {
+                          target.dataset.secondFallbackTried = "true";
+                          target.src = "https://http.cat/404";
+                        }
+                      }}
+                    />
+                  </div>
+
                   {(product.side_images || []).map((image, i) => (
                     <div
                       key={i}
-                      className="aspect-square bg-gray-100 rounded border-2 border-transparent hover:border-red-500 cursor-pointer"
+                      className={`aspect-square bg-white rounded border-2 ${selectedImage === image ? 'border-red-500' : 'border-transparent hover:border-red-500'} cursor-pointer thumbnail-container shadow-sm`}
+                      onClick={() => {
+                        console.log(`Setting selected image to: ${image}`);
+                        setSelectedImage(image);
+                      }}
                     >
                       <img
-                        src={image}
+                        src={`${BACKEND_URL}/${image}`}
                         alt={`${product.display_name || "Product"} view ${i + 1}`}
-                        className="w-full h-full object-cover object-center"
+                        className="thumbnail-image"
                         width={200}
                         height={200}
-                        loading={i < 2 ? "eager" : "lazy"}
+                        loading="eager" 
                         decoding="async"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           if (!target.dataset.fallbackTried) {
                             target.dataset.fallbackTried = "true";
-                            target.src = `${BACKEND_URL}/${image}`;
+                            target.src = image; // Try direct URL if BACKEND_URL prefix fails
                           } else if (!target.dataset.secondFallbackTried) {
                             target.dataset.secondFallbackTried = "true";
                             target.src = "https://http.cat/404";

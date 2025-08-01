@@ -1,0 +1,102 @@
+/* Product image magnifier styles */
+.product-image-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+  display: block;
+  max-height: 500px;
+  margin: 0 auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.product-image-magnifier {
+  position: relative;
+  cursor: zoom-in;
+  background-color: white;
+}
+
+.product-image-magnifier:hover .product-image {
+  transform: scale(2.5);
+  transform-origin: var(--x) var(--y);
+}
+
+.thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: all 0.2s ease;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.thumbnail-container {
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.thumbnail-container:hover .thumbnail-image {
+  transform: scale(1.1);
+}
+
+/* Selected thumbnail styling */
+.thumbnail-container.border-red-500 {
+  border-width: 2px;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+  transform: scale(1.05);
+}
+
+.thumbnail-container.border-red-500 .thumbnail-image {
+  opacity: 1;
+}
+
+/* Enhanced magnifier behaviors and image quality */
+.product-image, .thumbnail-image {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+  filter: contrast(1.02) saturate(1.05);
+  transition: all 0.3s ease;
+}
+
+/* Glass effect on hover */
+.product-image-magnifier::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.product-image-magnifier:hover::after {
+  opacity: 1;
+}
+
+/* Add responsive zoom behavior */
+@media (max-width: 768px) {
+  .product-image-magnifier:hover .product-image {
+    transform: scale(1.5);
+  }
+}
