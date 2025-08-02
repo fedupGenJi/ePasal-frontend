@@ -74,7 +74,7 @@ export default function ProductPage() {
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Product Images */}
               <div className="space-y-4">
-                <div 
+                <div
                   className="aspect-square bg-white rounded-lg overflow-hidden product-image-magnifier shadow-sm"
                   onMouseMove={(e) => {
                     const container = e.currentTarget;
@@ -87,7 +87,7 @@ export default function ProductPage() {
                 >
                   <div className="product-image-container">
                     <img
-                      src={`${BACKEND_URL}/${selectedImage || product.face_image}`}
+                      src={selectedImage || product.face_image} // Start with direct URL
                       alt={product.display_name || "Product Image"}
                       className="product-image"
                       width={800}
@@ -98,7 +98,7 @@ export default function ProductPage() {
                         const target = e.target as HTMLImageElement;
                         if (!target.dataset.fallbackTried) {
                           target.dataset.fallbackTried = "true";
-                          target.src = selectedImage || product.face_image; // Try direct URL if BACKEND_URL prefix fails
+                          target.src = `${BACKEND_URL}/${selectedImage || product.face_image}`;
                         } else if (!target.dataset.secondFallbackTried) {
                           target.dataset.secondFallbackTried = "true";
                           target.src = "https://http.cat/404";
@@ -119,7 +119,7 @@ export default function ProductPage() {
                     }}
                   >
                     <img
-                      src={`${BACKEND_URL}/${product.face_image}`}
+                      src={product.face_image}
                       alt={`${product.display_name || "Product"} main view`}
                       className="thumbnail-image"
                       width={200}
@@ -130,7 +130,7 @@ export default function ProductPage() {
                         const target = e.target as HTMLImageElement;
                         if (!target.dataset.fallbackTried) {
                           target.dataset.fallbackTried = "true";
-                          target.src = product.face_image;
+                          target.src = `${BACKEND_URL}/${product.face_image}`;
                         } else if (!target.dataset.secondFallbackTried) {
                           target.dataset.secondFallbackTried = "true";
                           target.src = "https://http.cat/404";
@@ -149,18 +149,18 @@ export default function ProductPage() {
                       }}
                     >
                       <img
-                        src={`${BACKEND_URL}/${image}`}
-                        alt={`${product.display_name || "Product"} view ${i + 1}`}
+                        src={image} // Start with direct image URL
+                        alt={`${product.display_name || "Product"} view`}
                         className="thumbnail-image"
                         width={200}
                         height={200}
-                        loading="eager" 
+                        loading="eager"
                         decoding="async"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           if (!target.dataset.fallbackTried) {
                             target.dataset.fallbackTried = "true";
-                            target.src = image; // Try direct URL if BACKEND_URL prefix fails
+                            target.src = `${BACKEND_URL}/${image}`;
                           } else if (!target.dataset.secondFallbackTried) {
                             target.dataset.secondFallbackTried = "true";
                             target.src = "https://http.cat/404";

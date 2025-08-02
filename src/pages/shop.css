@@ -1,0 +1,25 @@
+.filter-button {
+  background-color: #007bff; 
+  color: white;         
+  padding: 10px 20px;     
+  border: none;            
+  border-radius: 6px;        
+  font-weight: 600;         
+  cursor: pointer;          
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); 
+  font-size: 16px;          
+}
+
+.filter-button:hover {
+  background-color: #0056b3; 
+}
+
+.filter-button.danger {
+  background-color: #dc3545; 
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.5);
+}
+
+.filter-button.danger:hover {
+  background-color: #a71d2a; 
+}

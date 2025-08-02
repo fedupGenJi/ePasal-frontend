@@ -2,18 +2,65 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Navbar from '../multishareCodes/navbar';
 import Footer from '../multishareCodes/footer';
+import './shop.css'
+
 const Shop = () => {
   const [userId, setUserId] = useState<string | null>(null);
   const navigate = useNavigate();
+
   const [minPrice, setMinPrice] = useState(50000);
   const [maxPrice, setMaxPrice] = useState(250000);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [filterExists, setFilterExists] = useState(false);
+
+  // Display values read from sessionStorage for Shop Items info
+  const [displayFilter, setDisplayFilter] = useState<{
+    brands: string[];
+    minPrice: number;
+    maxPrice: number;
+  } | null>(null);
 
   useEffect(() => {
     const session = sessionStorage.getItem('userId');
     setUserId(session);
+
+    const savedFilter = sessionStorage.getItem('shopFilters');
+    if (savedFilter) {
+      const parsed = JSON.parse(savedFilter);
+      const { brands, minPrice, maxPrice } = parsed;
+      setSelectedBrands(brands);
+      setMinPrice(minPrice);
+      setMaxPrice(maxPrice);
+      setFilterExists(true);
+      setDisplayFilter(parsed);
+    } else {
+      setDisplayFilter(null);
+    }
   }, []);
 
+  const handleBrandChange = (brand: string) => {
+    setSelectedBrands(prev =>
+      prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]
+    );
+  };
+
+  const saveOrUpdateFilter = () => {
+    const filter = {
+      brands: selectedBrands,
+      minPrice,
+      maxPrice,
+    };
+    sessionStorage.setItem('shopFilters', JSON.stringify(filter));
+    window.location.reload();
+  };
+
+  const clearFilter = () => {
+    sessionStorage.removeItem('shopFilters');
+    window.location.reload();
+  };
+
   const isLoggedIn = !!userId;
+  const brandOptions = ['Lenevo', 'MSI', 'Acer', 'ASUS'];
 
   return (
     <>
@@ -33,18 +80,29 @@ const Shop = () => {
             overflowY: 'hidden',
           }}
         >
-          <h2>Filters</h2>
+          <h1
+            style={{
+              fontWeight: '900',
+              letterSpacing: '2px',
+              marginBottom: '20px',
+            }}
+          >
+            Filters
+          </h1>
 
           <div style={{ marginBottom: '20px' }}>
             <label><strong>Brand:</strong></label><br />
-            <input type="checkbox" id="lenevo" />
-            <label htmlFor="lenevo"> Lenevo</label><br />
-            <input type="checkbox" id="msi" />
-            <label htmlFor="msi"> MSI</label><br />
-            <input type="checkbox" id="acer" />
-            <label htmlFor="acer"> Acer</label><br />
-            <input type="checkbox" id="asus" />
-            <label htmlFor="asus"> ASUS</label>
+            {brandOptions.map(brand => (
+              <div key={brand}>
+                <input
+                  type="checkbox"
+                  id={brand.toLowerCase()}
+                  checked={selectedBrands.includes(brand)}
+                  onChange={() => handleBrandChange(brand)}
+                />
+                <label htmlFor={brand.toLowerCase()}> {brand}</label>
+              </div>
+            ))}
           </div>
 
           <div style={{ marginBottom: '20px' }}>
@@ -80,15 +138,56 @@ const Shop = () => {
             </p>
           </div>
 
+          <div style={{ height: '40px' }} />
+
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            {!filterExists ? (
+              <button
+                onClick={saveOrUpdateFilter}
+                className="filter-button"
+              >
+                Save Filter
+              </button>
+            ) : (
+              <>
+                <button
+                  onClick={saveOrUpdateFilter}
+                  className="filter-button"
+                >
+                  Update Filter
+                </button>
+                <button
+                  onClick={clearFilter}
+                  className="filter-button danger"
+                >
+                  Clear Filter
+                </button>
+              </>
+            )}
+          </div>
         </div>
 
-        <div style={{ marginLeft: '30%', padding: '20px', width: '70%' }}>
+        <div style={{ padding: '20px', width: '70%' }}>
           <h1>Shop Items</h1>
-          {/* Add product grid or list here */}
+
+          {displayFilter ? (
+            <>
+              <p><strong>Active Brands:</strong> {displayFilter.brands.join(', ') || 'None'}</p>
+              <p>
+                <strong>Price Range:</strong> ₹
+                {displayFilter.minPrice.toLocaleString()} - ₹
+                {displayFilter.maxPrice.toLocaleString()}
+              </p>
+            </>
+          ) : (
+            <p><em>No filters applied.</em></p>
+          )}
+
+          {/* Add your filtered product display here */}
         </div>
       </div>
 
-      <Footer/>
+      <Footer />
     </>
   );
 };
