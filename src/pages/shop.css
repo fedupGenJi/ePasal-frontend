@@ -23,3 +23,30 @@
 .filter-button.danger:hover {
   background-color: #a71d2a; 
 }
+
+.ribbon {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  z-index: 20;
+}
+
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 160px;
+  padding: 8px 0;
+  background: #e63946;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+  transform: rotate(45deg);
+  top: 25px;
+  right: -40px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  font-family: 'Poppins', sans-serif;
+}

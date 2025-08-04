@@ -68,8 +68,6 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
             EPASAL
           </h1>
           <div className="flex gap-6 text-2xl relative">
-            <FaShoppingCart title="Cart" className="cursor-pointer" />
-            <FiRepeat title="Compare" className="cursor-pointer" />
             <div>
               <FaUser
                 title="Account"

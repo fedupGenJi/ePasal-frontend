@@ -45,9 +45,18 @@ const BrandPage = () => {
 
   useEffect(() => {
     const fetchLaptops = async () => {
+      setLoading(true);
+      setLaptops([]); // clear previous results
+
+      const pageName = validBrands[brand?.toLowerCase() || ''];
+      if (!pageName) {
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await axios.get(`${BACKEND_URL}/api/brand/${pageName}`);
-        setLaptops(response.data.slice(0, 12)); // limit to 12
+        setLaptops(response.data.slice(0, 12));
       } catch (err) {
         console.error('Failed to fetch laptops:', err);
       } finally {
@@ -56,7 +65,8 @@ const BrandPage = () => {
     };
 
     fetchLaptops();
-  }, [pageName]);
+  }, [brand]);
+
 
   return (
     <>
@@ -72,9 +82,25 @@ const BrandPage = () => {
             {laptops.map((laptop) => (
               <div
                 key={laptop.id}
-                onClick={() => navigate(`/product-page?id=${laptop.id}`)}
+                onClick={() => {
+                  if (user_id) {
+                    const previous = sessionStorage.getItem('viewedLaptopIds');
+                    let viewedIds = previous ? JSON.parse(previous) : [];
+
+                    if (!viewedIds.includes(laptop.id)) {
+                      viewedIds.push(laptop.id);
+                      sessionStorage.setItem('viewedLaptopIds', JSON.stringify(viewedIds));
+                    }
+                  }
+                  navigate(`/product-page?id=${laptop.id}`)
+                }}
                 className="top-pick-box border rounded-lg shadow p-4 transition"
               >
+                {laptop.tag && (
+                  <div className="ribbon">
+                    <span>{laptop.tag}</span>
+                  </div>
+                )}
                 <div className="image-container">
                   <img
                     src={laptop.image}

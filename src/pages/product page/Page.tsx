@@ -1,5 +1,4 @@
 import { Button } from "../../components/ui/button";
-import { ShoppingCart, Scale } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
 import Navbar from "../../multishareCodes/navbar";
 import Footer from "../../multishareCodes/footer";
@@ -209,23 +208,12 @@ export default function ProductPage() {
                 </div>
 
                 <div className="flex gap-4">
-                  <Button size="lg" className="flex-1 bg-red-600 hover:bg-red-700">
-                    <ShoppingCart className="w-5 h-5 mr-2" />
-                    Add to Cart
-                  </Button>
                   <Button
                     size="lg"
                     variant="outline"
                     className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
                   >
                     Buy Now
-                  </Button>
-                </div>
-
-                <div className="flex gap-4">
-                  <Button variant="outline" className="flex-1 bg-transparent">
-                    <Scale className="w-4 h-4 mr-2" />
-                    Compare
                   </Button>
                 </div>
 
