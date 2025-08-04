@@ -134,6 +134,11 @@ const Home = () => {
                 onClick={() => navigate(`/product-page?id=${item.id}`)}
                 style={{ cursor: 'pointer' }}
               >
+                {item.tag && (
+                  <div className="ribbon">
+                    <span>{item.tag}</span>
+                  </div>
+                )}
                 <div className="image-container">
                   <img
                     src={item.image}
