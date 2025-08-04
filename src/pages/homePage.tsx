@@ -131,9 +131,25 @@ const Home = () => {
               <div
                 key={`${item.id}-${index}`}
                 className={className}
-                onClick={() => navigate(`/product-page?id=${item.id}`)}
+                onClick={() => {
+                  if (user_id) {
+                    const previous = sessionStorage.getItem('viewedLaptopIds');
+                    let viewedIds = previous ? JSON.parse(previous) : [];
+
+                    if (!viewedIds.includes(item.id)) {
+                      viewedIds.push(item.id);
+                      sessionStorage.setItem('viewedLaptopIds', JSON.stringify(viewedIds));
+                    }
+                  }
+                  navigate(`/product-page?id=${item.id}`)
+                }}
                 style={{ cursor: 'pointer' }}
               >
+                {item.tag && (
+                  <div className="ribbon">
+                    <span>{item.tag}</span>
+                  </div>
+                )}
                 <div className="image-container">
                   <img
                     src={item.image}
