@@ -34,30 +34,39 @@ const Shop = () => {
 
   const [viewedIds, setViewedIds] = useState<string[]>([]);
 
+  const [isInitialized, setIsInitialized] = useState(false);
+
   useEffect(() => {
     const session = sessionStorage.getItem('userId');
     setUserId(session);
 
-    const savedViewedIds = sessionStorage.getItem('viewedIds');
+    const savedViewedIds = sessionStorage.getItem('viewedLaptopIds');
     if (savedViewedIds) {
       setViewedIds(JSON.parse(savedViewedIds));
+    } else {
+      setViewedIds([]);
     }
 
     const savedFilter = sessionStorage.getItem('shopFilters');
     if (savedFilter) {
       const parsed = JSON.parse(savedFilter);
-      const { brands, minPrice, maxPrice } = parsed;
-      setSelectedBrands(brands);
-      setMinPrice(minPrice);
-      setMaxPrice(maxPrice);
+      setSelectedBrands(parsed.brands);
+      setMinPrice(parsed.minPrice);
+      setMaxPrice(parsed.maxPrice);
       setFilterExists(true);
       setDisplayFilter(parsed);
     } else {
       setDisplayFilter(null);
     }
 
-    fetchProducts();
+    setIsInitialized(true);
   }, []);
+
+  useEffect(() => {
+    if (isInitialized) {
+      fetchProducts();
+    }
+  }, [isInitialized, userId, viewedIds, filterExists]);
 
   const fetchProducts = async (term: string = '') => {
     try {
@@ -66,18 +75,36 @@ const Shop = () => {
       if (term.trim()) queryParams.append('search', term);
 
       if (filterExists) {
-        if (selectedBrands.length) queryParams.append('brands', selectedBrands.join(','));
-        queryParams.append('minPrice', minPrice.toString());
-        queryParams.append('maxPrice', maxPrice.toString());
+        const stored = sessionStorage.getItem('shopFilters');
+        if (stored) {
+          const { brands, minPrice, maxPrice } = JSON.parse(stored);
+
+          if (brands && brands.length > 0) {
+            queryParams.append('brands', brands.join(','));
+          }
+
+          if (minPrice !== undefined && minPrice !== null) {
+            queryParams.append('min_price', minPrice.toString());
+          }
+
+          if (maxPrice !== undefined && maxPrice !== null) {
+            queryParams.append('max_price', maxPrice.toString());
+          }
+        }
+      }
+
+      if (viewedIds.length > 0) {
+        queryParams.append('viewed', viewedIds.join(','));
       }
 
       if (!userId || viewedIds.length === 0) {
         queryParams.append('random', 'true');
-      } else {
-        queryParams.append('viewed', viewedIds.join(','));
       }
 
-      const response = await fetch(`${BACKEND_URL}/api/productshow/getproduct?${queryParams.toString()}`);
+      const fullURL = `${BACKEND_URL}/api/productshow/getproduct?${queryParams.toString()}`;
+      //console.log("Fetching products with URL:", fullURL);
+
+      const response = await fetch(fullURL);
       const data = await response.json();
       setSearchResults(data);
     } catch (err) {
