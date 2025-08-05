@@ -10,7 +10,6 @@ const menuItems = [
   { name: 'Dashboard', path: '/adminhomepage' },
   { name: 'Add Product', path: '/addproduct' },
   { name: 'Inventory', path: '/inventory' },
-  { name: 'Create Bill', path: '/createbill' },
   { name: 'Customer Support', path: '/support' },
 ];
 
