@@ -120,7 +120,7 @@ const Shop = () => {
         try {
           const queryParams = new URLSearchParams();
           queryParams.append('search', searchTerm);
-          const res = await fetch(`${BACKEND_URL}/api/products/getproduct?${queryParams}`);
+          const res = await fetch(`${BACKEND_URL}/api/productshow/suggestion?${queryParams}`);
           const data = await res.json();
           setSearchSuggestions(data.slice(0, 5));
         } catch (err) {
@@ -287,16 +287,17 @@ const Shop = () => {
                 onClick={handleClearSearch}
                 style={{
                   position: 'absolute',
-                  right: '70px',
+                  right: '90px',
                   top: '50%',
                   transform: 'translateY(-50%)',
                   cursor: 'pointer',
                   fontWeight: 'bold',
                   fontSize: '18px',
-                  color: '#999'
+                  color: '#999',
+                  zIndex: 10,
                 }}
               >
-                ×
+                ✖
               </span>
             )}
             <button
@@ -318,21 +319,7 @@ const Shop = () => {
             </button>
 
             {searchSuggestions.length > 0 && (
-              <ul style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                width: '100%',
-                backgroundColor: '#fff',
-                border: '1px solid #ccc',
-                borderTop: 'none',
-                zIndex: 10,
-                maxHeight: '200px',
-                overflowY: 'auto',
-                margin: 0,
-                padding: 0,
-                listStyle: 'none',
-              }}>
+              <ul className="search-suggestions">
                 {searchSuggestions.map(item => (
                   <li
                     key={item.id}
@@ -341,13 +328,17 @@ const Shop = () => {
                       fetchProducts(item.display_name);
                       setSearchSuggestions([]);
                     }}
-                    style={{
-                      padding: '10px',
-                      borderBottom: '1px solid #eee',
-                      cursor: 'pointer'
-                    }}
                   >
-                    {item.display_name}
+                    {item.image && (
+                      <img
+                        src={item.image.startsWith('http') ? item.image : `${BACKEND_URL}/${item.image}`}
+                        alt={item.display_name}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                    )}
+                    <span>{item.display_name}</span>
                   </li>
                 ))}
               </ul>
