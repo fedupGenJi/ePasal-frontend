@@ -50,3 +50,45 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   font-family: 'Poppins', sans-serif;
 }
+
+.search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  z-index: 1000;
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.search-suggestions li {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-size: 16px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-suggestions li:hover {
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 8px;
+}
+
+.search-suggestions li img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 4px;
+}
