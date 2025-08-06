@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 
-type NotificationType = 'success' | 'error';
+type NotificationType = 'success' | 'error' | 'warning';
 
 interface Notification {
   message: string;
@@ -27,7 +27,7 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 
     setTimeout(() => {
       setNotification(null);
-    }, 3000); 
+    }, 3000);
   }, []);
 
   return (
@@ -37,7 +37,13 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
           <div
             className={`rounded-xl px-6 py-4 text-white shadow-lg text-lg transition-all
-              ${notification.type === "success" ? "bg-green-600" : "bg-red-600"}`}
+              ${notification.type === "success"
+                ? "bg-green-600"
+                : notification.type === "error"
+                  ? "bg-red-600"
+                  : "bg-yellow-500"
+              }
+`}
           >
             {notification.message}
           </div>
