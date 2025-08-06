@@ -47,7 +47,7 @@ export default function ProductPage() {
     const fetchProduct = async () => {
       try {
         const session = sessionStorage.getItem('userId');
-    set_user_id(session);
+        set_user_id(session);
         const productId = new URLSearchParams(location.search).get("id");
         if (!productId) return;
 
@@ -135,7 +135,11 @@ export default function ProductPage() {
                 >
                   <div className="product-image-container">
                     <img
-                      src={selectedImage || product.face_image} // Start with direct URL
+                      src={
+                        (selectedImage || product.face_image).startsWith("http")
+                          ? (selectedImage || product.face_image)
+                          : `${BACKEND_URL}/${selectedImage || product.face_image}`
+                      }
                       alt={product.display_name || "Product Image"}
                       className="product-image"
                       width={800}
@@ -167,7 +171,11 @@ export default function ProductPage() {
                     }}
                   >
                     <img
-                      src={product.face_image}
+                      src={
+                        selectedImage?.startsWith("http")
+                          ? selectedImage
+                          : `${BACKEND_URL}/${selectedImage || product.face_image}`
+                      }
                       alt={`${product.display_name || "Product"} main view`}
                       className="thumbnail-image"
                       width={200}
@@ -197,7 +205,9 @@ export default function ProductPage() {
                       }}
                     >
                       <img
-                        src={image} // Start with direct image URL
+                        src={
+                          image.startsWith("http") ? image : `${BACKEND_URL}/${image}`
+                        }
                         alt={`${product.display_name || "Product"} view`}
                         className="thumbnail-image"
                         width={200}
