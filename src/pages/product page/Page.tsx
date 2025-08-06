@@ -63,6 +63,51 @@ export default function ProductPage() {
     fetchProduct();
   }, [location]);
 
+  const handleBuyNow = async () => {
+    if (!product) return;
+
+    const name = sessionStorage.getItem("name");
+    const email = sessionStorage.getItem("email");
+    const phone = sessionStorage.getItem("phone");
+
+    if (!name || !email || !phone) {
+      alert("You must be logged in to make a purchase.");
+      return;
+    }
+
+    const customer_info = {
+      name,
+      email,
+      phone,
+    };
+
+    const productId = new URLSearchParams(location.search).get("id");
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/payment/khalti/initiate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          product_id: productId,
+          product_name: product.display_name,
+          price: product.cost_price,
+          customer_info,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Payment initiation failed");
+      const data = await res.json();
+
+      if (data.payment_url) {
+        window.location.href = data.payment_url;
+      }
+    } catch (err) {
+      console.error("Error initiating Khalti payment:", err);
+      alert("Could not initiate payment");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar isLoggedIn={false} />
@@ -212,6 +257,7 @@ export default function ProductPage() {
                     size="lg"
                     variant="outline"
                     className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+                    onClick={handleBuyNow}
                   >
                     Buy Now
                   </Button>
