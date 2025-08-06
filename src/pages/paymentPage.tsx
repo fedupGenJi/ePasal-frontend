@@ -5,6 +5,7 @@ import { BACKEND_URL } from '../config';
 import khaltiLogo from '../assets/khalti.svg';
 
 const PaymentPage: React.FC = () => {
+    const calledRef = React.useRef(false);
     const location = useLocation();
     const navigate = useNavigate();
     const { showNotification } = useNotification();
@@ -29,6 +30,8 @@ const PaymentPage: React.FC = () => {
         const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
         const validatePayment = async () => {
+            if (calledRef.current) return;
+            calledRef.current = true;
             await delay(1000);
 
             try {

@@ -38,6 +38,7 @@ interface ProductDetails {
 }
 
 export default function ProductPage() {
+  const [user_id, set_user_id] = useState<string | null>(null);
   const [product, setProduct] = useState<ProductDetails | null>(null);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const location = useLocation();
@@ -45,6 +46,8 @@ export default function ProductPage() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        const session = sessionStorage.getItem('userId');
+    set_user_id(session);
         const productId = new URLSearchParams(location.search).get("id");
         if (!productId) return;
 
@@ -107,10 +110,11 @@ export default function ProductPage() {
       alert("Could not initiate payment");
     }
   };
+  const is_logged_in = !!user_id;
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar isLoggedIn={false} />
+      <Navbar isLoggedIn={is_logged_in} />
 
       <div className="container mx-auto px-4 py-8">
         {product ? (
