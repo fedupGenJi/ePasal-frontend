@@ -16,6 +16,7 @@ import Inventory from './admin/inventory'
 import CustomerSupport from './admin/customers';
 
 import Conversation from './pages/conversation'
+import PaymentPage from './pages/paymentPage';
 
 // Laptop versions
 import LoginLaptop from './pages/auth/login';
@@ -60,6 +61,7 @@ function App() {
         <Route path="/support" element={<CustomerSupport/>} />
         <Route path="/conversation" element={<Conversation/>} />
         <Route path="/:brand" element={<BrandPage />} />
+        <Route path="/payment/status" element={<PaymentPage />} />
       </Routes>
 
       <ToastContainer
